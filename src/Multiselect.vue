@@ -55,7 +55,7 @@
           type="text"
           autocomplete="off"
           spellcheck="false"
-          :placeholder="placeholder"
+          :placeholder="auxPlaceholder"
           :style="inputStyle"
           :value="search"
           :disabled="disabled"
@@ -86,7 +86,7 @@
           @mousedown.prevent="toggle"
         >
           <slot name="placeholder">
-            {{ placeholder }}
+            {{ auxPlaceholder }}
           </slot>
         </span>
       </div>
@@ -125,9 +125,12 @@
                   :class="optionHighlight(index, option)"
                   @click.stop="select(option)"
                   @mouseenter.self="pointerSet(index)"
+                  @focus="pointerSet(index)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
+                  :aria-label="getOptionLabel(option)"
+                  tabindex="0"
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search">
                       <span>{{ getOptionLabel(option) }}</span>
@@ -141,6 +144,8 @@
                   @mouseenter.self="groupSelect && pointerSet(index)"
                   @focus="groupSelect && pointerSet(index)"
                   @mousedown.prevent="selectGroup(option)"
+                  :aria-label="getOptionLabel(option)"
+                  tabindex="0"
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search">
                       <span>{{ getOptionLabel(option) }}</span>

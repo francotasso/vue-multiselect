@@ -83,6 +83,7 @@ export default {
     return {
       search: '',
       isOpen: false,
+      auxPlaceholder: 'Select option',
       preferredOpenDirection: 'below',
       optimizedHeight: this.maxHeight
     }
@@ -396,13 +397,20 @@ export default {
     },
     currentOptionLabel () {
       return this.multiple
-        ? this.searchable ? '' : this.placeholder
+        ? this.searchable ? '' : this.auxPlaceholder
         : this.internalValue.length
           ? this.getOptionLabel(this.internalValue[0])
-          : this.searchable ? '' : this.placeholder
+          : this.searchable ? '' : this.auxPlaceholder
     }
   },
   watch: {
+    placeholder: {
+      deep: true,
+      immediate: true,
+      handler (val) {
+        this.auxPlaceholder = val
+      }
+    },
     internalValue () {
       /* istanbul ignore else */
       if (this.resetAfter && this.internalValue.length) {
@@ -697,6 +705,8 @@ export default {
         this.$el.blur()
       }
       if (!this.preserveSearch) this.search = ''
+      else this.auxPlaceholder = this.search
+      // this.$set(this, 'placeholder', this.search)
       this.$emit('close', this.getValue(), this.id)
     },
     /**
