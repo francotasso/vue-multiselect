@@ -138,19 +138,20 @@ export default {
     pointerAdjust () {
       if (this.pointer === null) {
         this.pointer = 0
-      }
-      /* istanbul ignore else */
-      if (this.pointer >= this.filteredOptions.length - 1) {
-        this.pointer = this.filteredOptions.length
-          ? this.filteredOptions.length - 1
-          : 0
-      }
+      } else {
+        /* istanbul ignore else */
+        if (this.pointer >= this.filteredOptions.length - 1) {
+          this.pointer = this.filteredOptions.length
+            ? this.filteredOptions.length - 1
+            : 0
+        }
 
-      if (this.filteredOptions.length > 0 &&
-        this.filteredOptions[this.pointer].$isLabel &&
-        !this.groupSelect
-      ) {
-        this.pointerForward()
+        if (this.filteredOptions.length > 0 &&
+          this.filteredOptions[this.pointer].$isLabel &&
+          !this.groupSelect
+        ) {
+          this.pointerForward()
+        }
       }
     },
     pointerSet (index) {

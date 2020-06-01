@@ -405,10 +405,14 @@ export default {
   },
   watch: {
     placeholder: {
-      deep: true,
       immediate: true,
       handler (val) {
         this.auxPlaceholder = val
+      }
+    },
+    auxPlaceholder (val) {
+      if (!val.length) {
+        this.auxPlaceholder = this.placeholder
       }
     },
     internalValue () {
@@ -706,6 +710,7 @@ export default {
       }
       if (!this.preserveSearch) this.search = ''
       else this.auxPlaceholder = this.search
+      this.pointer = null
       // this.$set(this, 'placeholder', this.search)
       this.$emit('close', this.getValue(), this.id)
     },
